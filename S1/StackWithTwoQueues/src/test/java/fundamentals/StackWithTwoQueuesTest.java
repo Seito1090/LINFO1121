@@ -33,6 +33,10 @@ public class StackWithTwoQueuesTest {
             assertEquals(i, (int) stack.pop());
         }
         assertTrue(stack.empty());
+        for (int i = 0; i < 10; i++) {
+            stack.push(i);
+        }
+        stack.peek();
     }
 
 }
