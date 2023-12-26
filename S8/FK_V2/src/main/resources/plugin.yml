@@ -1,0 +1,4 @@
+name: FK_V2
+version: '${project.version}'
+main: plugin.fk_v2.FK_V2
+api-version: '1.19'
