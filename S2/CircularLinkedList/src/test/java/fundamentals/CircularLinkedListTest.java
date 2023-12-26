@@ -9,6 +9,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import javax.swing.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -38,6 +41,8 @@ public class CircularLinkedListTest {
         }
         Iterator<Integer> aIter = student.iterator();
         Iterator<Integer> bIter = correct.iterator();
+        //print the student list
+
         assertEquals(correct.size(),student.size());
         while (bIter.hasNext()) {
             assertTrue(aIter.hasNext());
