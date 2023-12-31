@@ -64,25 +64,32 @@ class LinkedStack<E> implements Stack<E> {
 
     @Override
     public boolean empty() {
-        // TODO Implement empty method
-         return false;
+         return this.size == 0;
     }
 
     @Override
     public E peek() throws EmptyStackException {
-        // TODO Implement peek method
-         return null;
+        if (this.size > 0){
+            return this.top.item;
+        }
+        throw new EmptyStackException();
     }
 
     @Override
     public E pop() throws EmptyStackException {
-        // TODO Implement pop method
-         return null;
+        if (this.size > 0){
+            E item = this.top.item;
+            this.top = this.top.next;
+            this.size--;
+            return item;
+        }
+        throw new EmptyStackException();
     }
 
     @Override
     public void push(E item) {
-        // TODO Implement push method
+        this.top = new Node(item, top);
+        this.size++;
     }
 }
 
@@ -100,30 +107,40 @@ class ArrayStack<E> implements Stack<E> {
     private int size;        // size of the stack
 
     public ArrayStack() {
-        array = (E[]) new Object[10];
+        this.array = (E[]) new Object[10];
     }
 
     @Override
     public boolean empty() {
-        // TODO Implement empty method
-         return false;
+         return this.size == 0;
     }
 
     @Override
     public E peek() throws EmptyStackException {
-        // TODO Implement peek method
-         return null;
+        if (this.size != 0){
+            return this.array[0];
+        }
+        throw new EmptyStackException();
     }
 
     @Override
     public E pop() throws EmptyStackException {
-        // TODO Implement pop method
-         return null;
+        if (this.size > 0){
+            this.size--;
+            return this.array[this.size];
+        }
+        throw new EmptyStackException();
     }
 
     @Override
     public void push(E item) {
-        // TODO Implement push method
+        if (this.size >= this.array.length){
+            E[] newArray = (E[]) new Object[array.length*2];
+            System.arraycopy(this.array, 0, newArray, 0, array.length);
+            this.array = newArray;
+        }
+        this.array[size] = item;
+        this.size++;
     }
 }
 

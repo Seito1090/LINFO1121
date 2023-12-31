@@ -24,12 +24,24 @@ public class CardSorter {
         // Here is a small loop with an invariant that you should try to respect
         // although, it's not mandatory, try to respect it, it will help you ;-)
 
+        if (list.isSorted()){return;}
         for (int iter = 0; iter < list.getSize() - 1; iter++) {
             //invariant: the 'iter' biggest elements are at the end of the list and are sorted.
             //example, at iteration iter=3, the three lasts elements are the three biggest elements in the list, and
             //they are in the increasing order.
 
-            // TODO
+            for (int a = 0; a < list.getSize()-1-iter; a++){
+                if (list.getFirst() > list.getSecond()){
+                    list.swap();
+                }
+                list.pop();
+            }
+
+            for (int a = 0; a < iter+1; a++){
+                list.pop();
+            }
+
+            if (list.isSorted()){return;}
 
         }
         // here, if you followed the invariant proposed above, the list should be sorted!
