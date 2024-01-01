@@ -1,5 +1,7 @@
 package sorting;
 
+import java.util.Arrays;
+
 /**
  * Author Pierre Schaus
  *
@@ -99,14 +101,19 @@ public class Median {
 
     /**
      * Returns the median value of the vector between two indices
-     *
      * @param vec the vector
      * @param lo the lowest index from which the median is computed
      * @param hi the highest index from which the median is computed
      */
     public static int median(Vector vec, int lo, int hi) {
-        // TODO
-         return -1;
+        int[] usedvalues = new int[hi-lo+2];
+        for (int a = 0; a < hi-lo+1; a++){
+            usedvalues[a] = vec.get(lo+a);
+        }
+        //Sort it
+        Arrays.sort(usedvalues);
+        //Return the index at the middle
+        return usedvalues[(hi-lo)/2 +1];
     }
 
 }
