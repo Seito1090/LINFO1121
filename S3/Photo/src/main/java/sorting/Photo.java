@@ -1,6 +1,6 @@
 package sorting;
 
-import java.lang.reflect.Array;
+import java.util.Random;
 
 /**
  * You're a photographer for a soccer meet.
@@ -23,7 +23,55 @@ import java.lang.reflect.Array;
  * Feel free to use existing java classes.
  */
 public class Photo {
-    
+
+    public static void exch(int[] array, int i, int j){
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+    public static void shuffleIntArray(int[] array) {
+        Random rand = new Random();
+
+        for (int i = array.length - 1; i > 0; i--) {
+            int index = rand.nextInt(i + 1);
+
+            // Swap array[i] and array[index]
+            int temp = array[i];
+            array[i] = array[index];
+            array[index] = temp;
+        }
+    }
+
+    public static int partition(int[] array, int lo, int hi){
+        int a = lo, b = hi+1;
+        int c = array[a];
+        while (true){
+            while(array[++a] < c) if (a == hi) break;
+            while(array[--b] > c) if (b == lo) break;
+            if (a >= b) break;
+            exch(array, a, b);
+        }
+        exch(array, lo, b);
+        return b;
+    }
+
+    public static void sort(int[] array, int lo, int hi){
+        //check if singleton
+        if (hi <= lo) return;
+        int j = partition(array, lo, hi);
+        sort(array, lo, j-1);
+        sort(array, j+1, hi);
+    }
+
+    public static void sortArray(int [] array){
+        shuffleIntArray(array);
+        sort(array, 0, array.length - 1);
+    }
+
+
+
+
     /**
      * This method checks if there is an arrangement of team A and B such that
      * a photo can be taken. If this is the case, it returns the sum of the
@@ -37,6 +85,25 @@ public class Photo {
      *         no arrangement can be found, returns -1
      */
     public static int canTakePictures(int [] teamA, int [] teamB) {
-         return -2;
+        sortArray(teamA);
+        sortArray(teamB);
+
+        boolean teamABig = teamA[0] > teamB[0];
+        int totalHeight = 0;
+
+        if (teamABig){
+            for (int a = 0; a < teamA.length; a++){
+                if (teamA[a] < teamB[a]){return -1;}
+                totalHeight += (teamB[a] - teamA[a]);
+            }
+        } else {
+            for (int a = 0; a < teamA.length; a++){
+                if (teamA[a] > teamB[a]){return -1;}
+                totalHeight += (teamB[a] - teamA[a]);
+            }
+        }
+
+
+        return Math.abs(totalHeight);
     }
 }
