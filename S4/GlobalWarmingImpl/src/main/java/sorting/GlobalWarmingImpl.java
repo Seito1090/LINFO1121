@@ -37,13 +37,14 @@ abstract class GlobalWarming {
 
 
     protected final int[][] altitude;
-
+    public int[] altitudeSorted;
     /**
      * @param altitude is a n x n matrix of int values representing altitudes (positive or negative)
      */
     public GlobalWarming(int[][] altitude) {
         this.altitude = altitude;
     }
+
 
     /**
      *
@@ -59,10 +60,21 @@ abstract class GlobalWarming {
 
 public class GlobalWarmingImpl extends GlobalWarming {
 
+    private int[] altitudeSorted;
 
     public GlobalWarmingImpl(int[][] altitude) {
         super(altitude);
-        // TODO
+        //Copy the 2d array into a 1d array
+        this.altitudeSorted = new int[altitude.length * altitude.length];
+        int index = 0;
+        for (int[] row : altitude){
+            for (int col : row){
+                altitudeSorted[index] = col;
+                index++;
+            }
+        }
+        //Sort the 1d array
+        Arrays.sort(altitudeSorted);
         // expected pre-processing time in the constructror : O(n^2 log(n^2))
 
 
@@ -74,9 +86,18 @@ public class GlobalWarmingImpl extends GlobalWarming {
      * @param waterLevel the level of water
      */
     public int nbSafePoints(int waterLevel) {
-        // TODO
         // expected time complexity O(log(n^2))
-         return -1;
+        // Find the last water level
+        int index = 0;
+        boolean found = false;
+        if (this.altitudeSorted == null){return -1;}
+        for (int level : this.altitudeSorted){
+            if (level > waterLevel){
+                return this.altitudeSorted.length - index;
+            }
+            index++;
+        }
+        return 0;
     }
 
 
