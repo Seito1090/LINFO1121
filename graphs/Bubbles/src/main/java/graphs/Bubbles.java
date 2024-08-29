@@ -1,6 +1,12 @@
 package graphs;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+
+import javax.swing.text.html.HTMLDocument;
 
 /**
  * Sophie and Marc want to reduce the bubbles
@@ -86,9 +92,35 @@ public class Bubbles {
      *         ForbiddenRelation and in the list.
      */
     public static List<ForbiddenRelation> cleanBubbles(List<Contact> contacts, int n) {
-        // TODO
-         return null;
+        /* First good idea might be to create a node for each person, then link them together, then break connections (those broken connections shall be in the return list) */
+        HashMap<String, HashSet<String>> yall = new HashMap<>();
+
+        for (Contact link : contacts){
+            if (!yall.containsKey(link.a)) yall.put(link.a, new HashSet<>());
+            if (!yall.containsKey(link.b)) yall.put(link.b, new HashSet<>());
+
+            HashSet<String> jeff = yall.get(link.a);
+            HashSet<String> greg = yall.get(link.b);
+
+            jeff.add(link.b);
+            greg.add(link.a);
+        }
+
+        List<ForbiddenRelation> forbidden = new ArrayList<>();
+
+        for (Contact link : contacts){
+            if (!yall.get(link.a).contains(link.b)) continue;
+            if (yall.get(link.a).size() > n && yall.get(link.b).size() > n){
+                forbidden.add(new ForbiddenRelation(link.a, link.b));
+                yall.get(link.a).remove(link.b);
+                yall.get(link.b).remove(link.a);
+            }
+        }
+
+        return forbidden;
     }
+
+
 
 }
 

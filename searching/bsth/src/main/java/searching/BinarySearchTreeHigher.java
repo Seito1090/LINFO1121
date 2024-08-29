@@ -119,32 +119,14 @@ public class BinarySearchTreeHigher<Key extends Comparable<Key>, Value> {
     }
 
     private Key higherKey(Node x, Key key) {
-        if (isEmpty()) return null; /* Leaf case / empty */
-        Key highest = key.compareTo(x.key) == 1 ? null : x.key;
-        Node currNode = x;
-        while (currNode.left != null && currNode.right != null){
-            if (highest == null) {
-                currNode = currNode.right;
-                highest = key.compareTo(currNode.key) == 1 ? currNode.key : highest;
-            } else {
-                int cmp0 = key.compareTo(currNode.key);
-                int cmp1 = highest.compareTo(currNode.key);
-                if (cmp0 == -1){
-                    /* case where the node is bigger than the key, we need to go left and save the best high */
-                    highest = cmp1 == 1 ? currNode.key: highest;
-                    currNode = currNode.left;
-                } else {
-                    /* 2 cases, either the val is the same or smaller, we need to go right in those cases */
-                    currNode = currNode.right;
-                }
-            }
-        }
-        /* Cases where 1 node has only 1 child */
-        if (currNode.right != null && currNode.right.key.compareTo(key) == 1) return highest.compareTo(currNode.right.key) == 1 ? currNode.right.key : highest;
-        if (currNode.left != null && currNode.left.key.compareTo(key) == 1) return highest.compareTo(currNode.left.key) == 1 ? currNode.left.key : highest;
-        if (highest == null) return key.compareTo(currNode.key) == 1 ? highest : currNode.key;
-        /* sometimes it choses the wrong one :( */
-        else return highest.compareTo(currNode.key) == 1 ? highest : currNode.key;
+        if (x == null) return null;
+        int cmp0 = key.compareTo(x.key);
+
+        if (cmp0 >= 0) return higherKey(x.right, key);
+        
+        Key left = higherKey(x.left, key);
+        if (left == null) return x.key;
+        return left;
     }
 
 }
